@@ -1,113 +1,158 @@
-import Image from "next/image";
+"use client";
+import EstateList from "@/components/EstateList";
+import { TRequsetArgu, TResponseValues } from "@/type/type";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 export default function Home() {
+  const [isSubmit, setIssubmit] = useState(false);
+  const [argu, setArgu] = useState<TRequsetArgu>({});
+  const [submitargu, setSubmitargu] = useState<TRequsetArgu>({});
+
+  const handleChange = (
+    e: ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ) => {
+    setArgu({
+      ...argu,
+      [e.target.name]: e.target.value,
+    });
+    console.log(argu);
+  };
+
+  const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (argu.CTRT_DAY != undefined) {
+      const date = argu.CTRT_DAY;
+      argu.CTRT_DAY = `${date.substring(0, 4)}${date.substring(
+        5,
+        7
+      )}${date.substring(8, 10)}`;
+    }
+    console.log(argu);
+    setSubmitargu(argu);
+    setIssubmit(true);
+    setArgu({});
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+      <header className="fixed justify-start w-[300px] bg-white shadow-md rounded-lg p-6 mb-6">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">
+          서울시 부동산 실거래가 조회하기
+        </h1>
+        <div>
+          <form action="" onSubmit={onSubmitHandler} className="space-y-2">
+            <div className="space-y-1">
+              <label className="inline-block text-gray-700">연도:</label>
+              <div className="flex justify-between align-middle">
+                <select
+                  name="RCPT_YR"
+                  value={argu.RCPT_YR ? argu.RCPT_YR : ""}
+                  onChange={handleChange}
+                  className="block border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
+                >
+                  <option value="">전체</option>
+                  <option value="2024">2024</option>
+                  <option value="2023">2023</option>
+                  <option value="2022">2022</option>
+                  <option value="2021">2021</option>
+                  <option value="2020">2020</option>
+                </select>
+                <input
+                  name="RCPT_YR"
+                  type="text"
+                  placeholder="연도를 입력하세요"
+                  value={argu.RCPT_YR ? argu.RCPT_YR : ""}
+                  onChange={handleChange}
+                  className="block border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
+                ></input>
+              </div>
+            </div>
+            <div>
+              <label className="block text-gray-700">자치구:</label>
+              <select
+                id="자치구코드"
+                name="CGG_CD"
+                value={argu.CGG_CD ? argu.CGG_CD : ""}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
+              >
+                <option value="">전체</option>
+                <option value="11680">강남구</option>
+                <option value="11740">강동구</option>
+                <option value="11305">강북구</option>
+                <option value="11500">강서구</option>
+                <option value="11620">관악구</option>
+                <option value="11215">광진구</option>
+                <option value="11530">구로구</option>
+                <option value="11545">금천구</option>
+                <option value="11350">노원구</option>
+                <option value="11320">도봉구</option>
+                <option value="11230">동대문구</option>
+                <option value="11590">동작구</option>
+                <option value="11440">마포구</option>
+                <option value="11410">서대문구</option>
+                <option value="11650">서초구</option>
+                <option value="11200">성동구</option>
+                <option value="11290">성북구</option>
+                <option value="11710">송파구</option>
+                <option value="11470">양천구</option>
+                <option value="11560">영등포구</option>
+                <option value="11170">용산구</option>
+                <option value="11380">은평구</option>
+                <option value="11110">종로구</option>
+                <option value="11140">중구</option>
+                <option value="11260">중랑구</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-gray-700">건물명:</label>
+              <input
+                type="text"
+                name="BLDG_NM"
+                value={argu.BLDG_NM ? argu.BLDG_NM : ""}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
+              ></input>
+            </div>
+            <div>
+              <label className="block text-gray-700">계약일:</label>
+              <input
+                name="CTRT_DAY"
+                type="date"
+                value={argu.CTRT_DAY ? argu.CTRT_DAY : ""}
+                onChange={handleChange}
+                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
+              ></input>
+            </div>
+            <div>
+              <label className="block text-gray-700">건물용도:</label>
+              <select
+                name="BLDG_USG"
+                onChange={handleChange}
+                value={argu.BLDG_USG ? argu.BLDG_USG : ""}
+                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
+              >
+                <option value="">전체</option>
+                <option value="아파트">아파트</option>
+                <option value="단독다가구">단독다가구</option>
+                <option value="연립다세대">연립다세대</option>
+                <option value="오피스텔">오피스텔</option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              className="mt-4 w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              검색
+            </button>
+          </form>
         </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      </header>
+      <body>
+        <div className="ml-[300px]">
+          {isSubmit && <EstateList argu={submitargu} />}
+        </div>
+      </body>
+    </>
   );
 }
