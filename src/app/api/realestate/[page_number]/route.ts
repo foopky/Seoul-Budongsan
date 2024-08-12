@@ -37,7 +37,6 @@ export async function GET(
         argu[7]
       }/${argu[8]}/${argu[9]}/${argu[10]}`
     );
-    console.log(argu);
 
     const data = await res.json();
     return Response.json(data);

@@ -3,6 +3,8 @@ import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { InView, useInView } from "react-intersection-observer";
 import { v4 as uuidv4 } from "uuid";
 import Spinner from "./Spinner";
+import { format } from "date-fns/format";
+import { parse } from "date-fns/parse";
 export default function EstateList({ argu }: { argu: TRequsetArgu }) {
   const [datas, setDatas] = useState<TResponseValues>({
     RESULT: { CODE: "", MESSAGE: "" },
@@ -40,6 +42,7 @@ export default function EstateList({ argu }: { argu: TRequsetArgu }) {
 
   useEffect(() => {
     page_from.current = 1;
+    setRow([]);
     getEstateList(page_from.current);
   }, [argu]);
 
@@ -72,8 +75,16 @@ export default function EstateList({ argu }: { argu: TRequsetArgu }) {
             <ul key={uuidv4()} className="mb-4">
               <div className="bg-white shadow-md rounded-lg p-4">
                 <h3 className="text-xl font-semibold text-gray-800">
-                  건물명: {data.BLDG_NM}
+                  {data.BLDG_NM}
                 </h3>
+                <div className="flex">
+                  <label className="text-gray-600 ml-auto">
+                    {format(
+                      parse(data.CTRT_DAY, "yyyyMMdd", new Date()),
+                      "yyyy-MM-dd"
+                    )}
+                  </label>
+                </div>
                 <p className="text-gray-600">가격: {data.THING_AMT}</p>
                 <p className="text-gray-600">면적: {data.ARCH_AREA}</p>
               </div>
