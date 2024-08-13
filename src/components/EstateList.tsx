@@ -5,12 +5,34 @@ import { v4 as uuidv4 } from "uuid";
 import Spinner from "./Spinner";
 import { format } from "date-fns/format";
 import { parse } from "date-fns/parse";
+import { create } from "zustand";
+type Tstore = {
+  row: TResponseValue[];
+  addRow: (obj: TResponseValue) => void;
+  initRow: () => void;
+};
+const useStore = create<Tstore>((set) => ({
+  row: [],
+  addRow: (obj) =>
+    set((state) => ({
+      row: [
+        ...state.row,
+        {
+          ...obj,
+          id: uuidv4(),
+        },
+      ],
+    })),
+  initRow: () => set((state) => ({ row: [] })),
+}));
 export default function EstateList({ argu }: { argu: TRequsetArgu }) {
+  const { row, addRow, initRow } = useStore();
   const [datas, setDatas] = useState<TResponseValues>({
     RESULT: { CODE: "", MESSAGE: "" },
     row: [],
   });
-  const [row, setRow] = useState<TResponseValue[]>([]); // zustand로 전역상태관리 사용 예정
+
+  // const [row, setRow] = useState<TResponseValue[]>([]); // zustand로 대체
   const page_from = useRef(1);
 
   const { ref, inView, entry } = useInView();
@@ -34,13 +56,7 @@ export default function EstateList({ argu }: { argu: TRequsetArgu }) {
       .then((data) => {
         if (typeof data.tbLnOpendataRtmsV !== "undefined") {
           data.tbLnOpendataRtmsV.row.map((obj: TResponseValue) => {
-            setRow((prev) => [
-              ...prev,
-              {
-                ...obj,
-                id: uuidv4(),
-              },
-            ]);
+            addRow(obj);
           });
           setDatas(data.tbLnOpendataRtmsV);
         } else setDatas(data);
@@ -49,7 +65,7 @@ export default function EstateList({ argu }: { argu: TRequsetArgu }) {
 
   useEffect(() => {
     page_from.current = 1;
-    setRow([]);
+    initRow();
     getEstateList(page_from.current);
   }, [argu]);
 
