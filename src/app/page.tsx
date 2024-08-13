@@ -48,7 +48,7 @@ export default function Home() {
                   name="RCPT_YR"
                   value={argu.RCPT_YR ? argu.RCPT_YR : ""}
                   onChange={handleChange}
-                  className="block border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
+                  className="block rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
                 >
                   <option value="">전체</option>
                   <option value="2024">2024</option>
@@ -63,7 +63,7 @@ export default function Home() {
                   placeholder="연도를 입력하세요"
                   value={argu.RCPT_YR ? argu.RCPT_YR : ""}
                   onChange={handleChange}
-                  className="block border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
+                  className="block rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
                 ></input>
               </div>
             </div>
@@ -74,7 +74,7 @@ export default function Home() {
                 name="CGG_CD"
                 value={argu.CGG_CD ? argu.CGG_CD : ""}
                 onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
+                className="block w-full mt-1 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
               >
                 <option value="">전체</option>
                 <option value="11680">강남구</option>
@@ -111,7 +111,7 @@ export default function Home() {
                 name="BLDG_NM"
                 value={argu.BLDG_NM ? argu.BLDG_NM : ""}
                 onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
+                className="block w-full mt-1 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
               ></input>
             </div>
             <div>
@@ -121,7 +121,7 @@ export default function Home() {
                 type="date"
                 value={argu.CTRT_DAY ? argu.CTRT_DAY : ""}
                 onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
+                className="block w-full mt-1 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
               ></input>
             </div>
             <div>
@@ -130,7 +130,7 @@ export default function Home() {
                 name="BLDG_USG"
                 onChange={handleChange}
                 value={argu.BLDG_USG ? argu.BLDG_USG : ""}
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
+                className="block w-full mt-1 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-slate-500"
               >
                 <option value="">전체</option>
                 <option value="아파트">아파트</option>

@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { TRequsetArgu, typelist } from "@/type/type";
+import { typelist } from "@/type/type";
 export async function GET(
   request: NextRequest,
   { params }: { params: { page_number: string } }
@@ -18,7 +18,9 @@ export async function GET(
     }
 
     const res = await fetch(
-      `http://openapi.seoul.go.kr:8088/475874584b636a6d37356468614b42/json/tbLnOpendataRtmsV/${page_from.toString()}/${page_to.toString()}/${
+      `http://openapi.seoul.go.kr:8088/${
+        process.env.BDS_API_KEY
+      }/json/tbLnOpendataRtmsV/${page_from.toString()}/${page_to.toString()}/${
         argu[0]
       }/${argu[1]}/${argu[2]}/${argu[3]}/${argu[4]}/${argu[5]}/${argu[6]}/${
         argu[7]
@@ -31,7 +33,9 @@ export async function GET(
       }
     );
     console.log(
-      `http://openapi.seoul.go.kr:8088/475874584b636a6d37356468614b42/json/tbLnOpendataRtmsV/${page_from.toString()}/${page_to.toString()}/${
+      `http://openapi.seoul.go.kr:8088/${
+        process.env.BDS_API_KEY
+      }/json/tbLnOpendataRtmsV/${page_from.toString()}/${page_to.toString()}/${
         argu[0]
       }/${argu[1]}/${argu[2]}/${argu[3]}/${argu[4]}/${argu[5]}/${argu[6]}/${
         argu[7]

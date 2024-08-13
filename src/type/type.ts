@@ -32,6 +32,7 @@ export type TResponseValues = {
 };
 
 export type TResponseValue = {
+  id?: string;
   RCPT_YR: string;
   CGG_CD: string;
   CGG_NM: string;

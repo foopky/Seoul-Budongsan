@@ -10,7 +10,7 @@ export default function EstateList({ argu }: { argu: TRequsetArgu }) {
     RESULT: { CODE: "", MESSAGE: "" },
     row: [],
   });
-  const [row, setRow] = useState<TResponseValue[]>([]);
+  const [row, setRow] = useState<TResponseValue[]>([]); // zustand로 전역상태관리 사용 예정
   const page_from = useRef(1);
 
   const { ref, inView, entry } = useInView();
@@ -29,13 +29,20 @@ export default function EstateList({ argu }: { argu: TRequsetArgu }) {
         headers: { "Content-type": "application/json" },
       }
     );
-    // const { tbLnOpendataRtmsV: data } = await res.json();
     res
       .then((data) => data.json())
       .then((data) => {
         if (typeof data.tbLnOpendataRtmsV !== "undefined") {
+          data.tbLnOpendataRtmsV.row.map((obj: TResponseValue) => {
+            setRow((prev) => [
+              ...prev,
+              {
+                ...obj,
+                id: uuidv4(),
+              },
+            ]);
+          });
           setDatas(data.tbLnOpendataRtmsV);
-          setRow((prev) => [...prev, ...data.tbLnOpendataRtmsV.row]);
         } else setDatas(data);
       });
   };
@@ -72,7 +79,9 @@ export default function EstateList({ argu }: { argu: TRequsetArgu }) {
             총 거래량: {datas.list_total_count}
           </h1>
           {row.map((data) => (
-            <ul key={uuidv4()} className="mb-4">
+            <ul key={data.id} className="mb-4">
+              <h1>{data.id}</h1>
+
               <div className="bg-white shadow-md rounded-lg p-4">
                 <h3 className="text-xl font-semibold text-gray-800">
                   {data.BLDG_NM}
